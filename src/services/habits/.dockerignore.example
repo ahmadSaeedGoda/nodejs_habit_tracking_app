@@ -42,6 +42,9 @@ tmp/
 # Build artifacts
 /build/
 
+# Compiled TypeScript files
+dist
+
 # Docker artifacts
 .DS_Store
 docker-compose.yml

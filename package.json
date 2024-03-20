@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "docker compose up",
+    "clear": "docker compose down",
     "test": "cd ./src/services/tests && npx jest"
   },
   "keywords": [],
