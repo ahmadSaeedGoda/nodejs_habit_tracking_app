@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  namespace: ld-rr
+  labels:
+    app: auth-service
+    tier: backend
+    environment: development
+spec:
+  selector:
+    matchLabels:
+      app: auth-service
+      tier: backend
+      environment: development
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: auth-service
+        tier: backend
+        environment: development
+    spec:
+      containers:
+      - image: ahmadsaeedgoda/ld_rr:auth-service
+        imagePullPolicy: IfNotPresent
+        name: auth-deployment
+        ports:
+        - containerPort: 3000
+        env:
+        - name: APP_PORT
+          value: "3000"
+        - name: DATABASE_URI
+          value: "host=postgres user=admin password=password dbname=nodejs_habit_tracker_users port=5432 sslmode=disable"
+        - name: POSTGRES_HOST
+          value: auth-postgres
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_USER
+          value: admin
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_DB
+          value: nodejs_habit_tracker_users
+        - name: SSL_MODE
+          value: disable
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"

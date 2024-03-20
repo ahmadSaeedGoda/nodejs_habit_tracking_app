@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: habits-service
+  namespace: ld-rr
+spec:
+  type: NodePort
+  ports:
+  - port: 3001
+    protocol: TCP
+    targetPort: 3001
+    nodePort: 30008
+  selector:
+    app: habits-service
+    tier: backend
+    environment: development

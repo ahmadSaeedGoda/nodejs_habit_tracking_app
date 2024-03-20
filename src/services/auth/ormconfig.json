@@ -1,0 +1,10 @@
+{
+	"type": "postgres",
+	"host": "localhost",
+	"port": 5432,
+	"username": "admin",
+	"password": "password",
+	"database": "nodejs_habit_tracker_users",
+	"entities": ["./src/entity/*.ts"],
+	"synchronize": true
+}

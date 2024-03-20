@@ -1,0 +1,54 @@
+# Logs
+*.log
+
+# Runtime data
+pids *.pid *.seed *.pid.lock
+
+# Coverage directory
+coverage
+
+# Compiled TypeScript files
+dist
+
+# Optional npm cache directory
+.npm
+
+# Optional cache directories for various build tools
+.cache
+
+# Optional ESLint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment variable files
+.env
+
+# Serverless directories
+.serverless
+
+# Database specific files
+.pgpass
+
+# Testing frameworks and configurations
+jest/*.json
+**/__tests__/**/*.ts
+**/__mocks__/**/*.ts
+
+# Editor configuration files
+.vscode/settings.json
+.vscode/extensions.json
+
+# Specific IDE or framework configuration files
+# (Adjust as needed for your setup)
+**/tsconfig.json
+**/tslint.json
+**/prettier.config.json
+node_modules/

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: habits-postgres
+  namespace: ld-rr
+  labels:
+    app: habits-postgres
+    tier: backend
+    environment: development
+    role: database
+spec:
+  selector:
+    matchLabels:
+      app: habits-postgres
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: habits-postgres
+    spec:
+      containers:
+      - image: ahmadsaeedgoda/ld_rr:habits-postgres
+        imagePullPolicy: IfNotPresent
+        name: habits-postgres
+        ports:
+        - containerPort: 5433
+        env:
+        - name: APP_PORT
+          value: "3001"
+        - name: POSTGRES_HOST
+          value: habits-postgres
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_USER
+          value: admin
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_DB
+          value: nodejs_habit_tracker_habits
+        volumeMounts:
+        - name: habits-postgres-data
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      volumes:
+      - name: habits-postgres-data
+        persistentVolumeClaim:
+          claimName: habits-postgres-pvc

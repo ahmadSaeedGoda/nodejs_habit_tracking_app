@@ -1,0 +1,12 @@
+{
+  "name": "habit_tracking_app",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "docker compose up",
+    "test": "cd ./src/services/tests && npx jest"
+  },
+  "keywords": [],
+  "author": "Ahmad Saeed Goda",
+  "license": "ISC"
+}

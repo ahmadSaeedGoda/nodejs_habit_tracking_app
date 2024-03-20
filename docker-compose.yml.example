@@ -1,0 +1,66 @@
+version: "3.8"
+services:
+  auth-service:
+    image: ahmadsaeedgoda/ld_rr:auth-service
+    env_file: ./src/services/auth/.env
+    build:
+      context: ./src/services/auth
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/services/auth:/usr/src/app # Mount the source code directory into the container for hot reload
+    depends_on:
+      - auth-postgres
+
+  auth-postgres:
+    image: ahmadsaeedgoda/ld_rr:auth-postgres
+    environment:
+      - POSTGRES_HOST=auth-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=nodejs_habit_tracker_users
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    build:
+      context: ./src/services/auth/src/database
+      dockerfile: ./Dockerfile.postgres
+    container_name: auth-postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - auth-postgres-data:/var/lib/postgresql/data
+
+  habit-service:
+    image: ahmadsaeedgoda/ld_rr:habit-service
+    env_file: ./src/services/habits/.env
+    build:
+      context: ./src/services/habits
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./src/services/habits:/usr/src/app # Mount the source code directory into the container for hot reload
+    depends_on:
+      - habits-postgres
+      - auth-service
+
+  habits-postgres:
+    image: ahmadsaeedgoda/ld_rr:habits-postgres
+    environment:
+      - POSTGRES_HOST=habits-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=nodejs_habit_tracker_habits
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    build:
+      context: ./src/services/habits/src/database
+      dockerfile: ./Dockerfile.postgres
+    container_name: habits-postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - habits-postgres-data:/var/lib/postgresql/data
+    depends_on:
+      - auth-postgres
+
+volumes:
+  auth-postgres-data:
+  habits-postgres-data:

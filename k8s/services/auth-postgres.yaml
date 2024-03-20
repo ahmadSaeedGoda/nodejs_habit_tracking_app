@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-postgres
+  namespace: ld-rr
+  labels:
+    app: auth-postgres
+    tier: backend
+    environment: development
+    role: database
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: auth-postgres
