@@ -1,5 +1,6 @@
 # Auth Keys
 *.key *.pem certs/
+src/services/auth/certs/
 
 # Logs
 *.log
