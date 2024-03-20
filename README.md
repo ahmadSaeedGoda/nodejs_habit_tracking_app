@@ -51,7 +51,11 @@ Go through the `src` dir, Find any file named `.env.*.example` in the root direc
 
 Replicate the same step for `docker-compose.yml.example`, `Dockerfile.dev.example`, `Dockerfile.postgres.example`. Just remove the suffix `.example` after duplicating these files and you're good to go!
 
-- <b>Step 3:</b> Navigate to the root directory of the project you cloned or downloaded via CLI, then run the following command to get it up and running!
+- <b>Step 3:</b> Visit the path `<project-root>/src/services/auth/` and issue API keys/certs using the respective tool of your choice! The key should be named `<project-root>/src/services/auth/certs/public.pem` & `<project-root>/src/services/auth/certs/private.pem` respectively, and should reside in the specified path.
+
+Note: If you are on Linux Ubuntu, the openssl is a pre-installed utility.
+
+- <b>Step 4:</b> Navigate to the root directory of the project you cloned or downloaded via CLI, then run the following command to get it up and running!
 ```sh
 $ docker compose up
 ```
