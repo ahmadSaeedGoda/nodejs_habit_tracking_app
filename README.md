@@ -35,11 +35,11 @@ You need the following requirements installed globally on your machine.
 
 ### Getting The Codebase:
 
-The simplest way to obtain the code is using the github .zip feature. Click [here](https://github.com/ahmadSaeedGoda/habit_tracking_app/archive/refs/heads/master.zip) to get the latest stable version as a .zip compressed file.
+The simplest way to obtain the code is using the github .zip feature. Click [here](https://github.com/ahmadSaeedGoda/nodejs_habit_tracking_app/archive/refs/heads/master.zip) to get the latest stable version as a .zip compressed file.
 
 The recommended way is using `GIT`. You'll need to make sure `git version ~2.34.1` is installed on your machine. Use a terminal or Power Shell to visit the directory where you'd like to have the source code placed, then type in:
 ```sh
-$ git clone https://github.com/ahmadSaeedGoda/habit_tracking_app.git
+$ git clone https://github.com/ahmadSaeedGoda/nodejs_habit_tracking_app.git
 ```
 Feel free to switch the URL to use `SSH` protocol instead!
 
