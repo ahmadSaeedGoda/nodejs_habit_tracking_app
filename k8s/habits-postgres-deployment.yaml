@@ -1,17 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: habits-postgres
+  name: habits-postgres-deployment
   namespace: ld-rr
-  labels:
-    app: habits-postgres
-    tier: backend
-    environment: development
-    role: database
 spec:
   selector:
     matchLabels:
-      app: habits-postgres
+      app: habits-postgres-app
   replicas: 1
   minReadySeconds: 15
   strategy:
@@ -22,17 +17,15 @@ spec:
   template:
     metadata:
       labels:
-        app: habits-postgres
+        app: habits-postgres-app
     spec:
       containers:
       - image: ahmadsaeedgoda/ld_rr:habits-postgres
-        imagePullPolicy: IfNotPresent
-        name: habits-postgres
+        imagePullPolicy: Always
+        name: habits-postgres-pod
         ports:
-        - containerPort: 5433
+        - containerPort: 5432
         env:
-        - name: APP_PORT
-          value: "3001"
         - name: POSTGRES_HOST
           value: habits-postgres
         - name: POSTGRES_PORT
@@ -48,12 +41,40 @@ spec:
           mountPath: /var/lib/postgresql/data
         resources:
           requests:
-            memory: "100Mi"
-            cpu: "50m"
-          limits:
             memory: "256Mi"
-            cpu: "200m"
+            cpu: "0.5"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
       volumes:
       - name: habits-postgres-data
         persistentVolumeClaim:
           claimName: habits-postgres-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: habits-postgres-service
+  namespace: ld-rr
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: habits-postgres-app
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: habits-postgres-pvc
+  namespace: ld-rr
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: "256Mi"

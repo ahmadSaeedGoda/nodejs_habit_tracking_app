@@ -11,7 +11,6 @@ import path from 'path';
 export class AuthService {
     constructor(
         private readonly authRepository: AuthRepository,
-        private readonly jwtSecretKey: string
     ) {}
 
     login = async (user: Partial<User>): Promise<string> => {
@@ -56,4 +55,4 @@ export class AuthService {
     };
 }
 
-export const authService = new AuthService(authRepository, requiredEnvVars.jwtSecret);
+export const authService = new AuthService(authRepository);

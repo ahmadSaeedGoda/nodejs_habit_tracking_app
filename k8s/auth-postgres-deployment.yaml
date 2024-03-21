@@ -1,17 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-postgres
+  name: auth-postgres-deployment
   namespace: ld-rr
-  labels:
-    app: auth-postgres
-    tier: backend
-    environment: development
-    role: database
 spec:
   selector:
     matchLabels:
-      app: auth-postgres
+      app: auth-postgres-app
   replicas: 1
   minReadySeconds: 15
   strategy:
@@ -22,19 +17,15 @@ spec:
   template:
     metadata:
       labels:
-        app: auth-postgres
+        app: auth-postgres-app
     spec:
       containers:
       - image: ahmadsaeedgoda/ld_rr:auth-postgres
-        imagePullPolicy: IfNotPresent
-        name: auth-postgres
+        imagePullPolicy: Always
+        name: auth-postgres-pod
         ports:
         - containerPort: 5432
         env:
-        - name: APP_PORT
-          value: "3000"
-        - name: DATABASE_URI
-          value: "host=postgres user=admin password=password dbname=nodejs_habit_tracker_users port=5432 sslmode=disable"
         - name: POSTGRES_HOST
           value: auth-postgres
         - name: POSTGRES_PORT
@@ -45,20 +36,45 @@ spec:
           value: password
         - name: POSTGRES_DB
           value: nodejs_habit_tracker_users
-        - name: SSL_MODE
-          value: disable
         volumeMounts:
         - name: auth-postgres-data
           mountPath: /var/lib/postgresql/data
         resources:
           requests:
-            memory: "100Mi"
-            cpu: "50m"
-          limits:
             memory: "256Mi"
-            cpu: "200m"
+            cpu: "0.5"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
       volumes:
       - name: auth-postgres-data
         persistentVolumeClaim:
           claimName: auth-postgres-pvc
 
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-postgres-service
+  namespace: ld-rr
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: auth-postgres-app
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: auth-postgres-pvc
+  namespace: ld-rr
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: "256Mi"

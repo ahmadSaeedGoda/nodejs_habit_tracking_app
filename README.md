@@ -10,7 +10,7 @@
 
 ## Current Scope
 
-A basic, trivial, simple, minimal, walking skeleton, POC demo for Habit Tracker App implementing JWT Auth & CRUD operations as `Microservices Arch` in `Node.js` having the following functionalities:
+A basic, trivial, simple, minimal, walking skeleton, POC, bleeding-edge demo for Habit Tracker App implementing JWT Auth & CRUD operations as `Microservices Arch` in `Node.js`, deployed on K8S, having the following functionalities:
 * `Register`, `Login`, as a User!
 * User can Add new `Habit`.
 * Update an existing `Habit`.
@@ -20,18 +20,16 @@ A basic, trivial, simple, minimal, walking skeleton, POC demo for Habit Tracker 
 
 ## Project Status
 
-This project is currently under development (Immature, subject to break, evolve, change, emits loud noise when running!!). Users now can do the above functionalities, As per requirements of the assignment.
+This project is currently under development (Immature, subject to break, evolve, change, emits loud noise when running!!). Users now can do the above functionalities, As per requirements of the assignment with the former disclaimer 👈 IN MIND!!!
 
 ## Installation and Setup Instructions
 
 You need the following requirements installed globally on your machine.
 
 ## Requirements
-- `Node.js` >= v14
-- `PostgreSQL` >= v16.2
-- Proxy Web Server: `Apache2` or preferably `NGINX` in case of creating a virtual host instead of specifying the port in URL rather than the default port `80`.
-
-<b><span style="background-color:yellow; color:black">Note:</span></b> The requirements listed above are needed in case you'll ignore the docker setup. Otherwise, if you find it convenient for you to work with `Docker` example files are available in the root directory of the project for convenience.
+- Docker Desktop 4.28.0 (139021) is currently the newest version available.
+- Enabled Kubernetes Cluster over Docker Desktop.
+Or the environment of your choice to have K8s && Docker up & running as per your OS.
 
 ### Getting The Codebase:
 
@@ -78,9 +76,38 @@ This way, when running the file in the console after making sure the prompt poin
 
 Whatever convenient for you to run the app for visiting the endpoints in an API client such as `postman`, `insomnia` or even `curl`.
 
-<br><b><span style="background-color:yellow; color:black">Note:</span></b> A shared Postman collection is included/shared within the source code root directory, this can be imported and ready to use after changing the environment variables values as per your local env. "In case you'd like to change the default"
 
-For documentation & Usage see `Postman Collection` shared collection with Examples included in file: `Nodejs Habit Tracker Auth Micro.postman_collection.json`.
+- <b>Step 5: Deploy on K8s</b>
+Navigate to the project <root-dir> via CLI to run the following commands in-order:
+
+```sh
+$ kubectl apply -f k8s/ld-namespace.yaml
+```
+So you create a namespace specified for our resources to live and play around isolated, to avoid cluttering others work. 😉
+
+```sh
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
+```
+So you can have ingress added to your current setup since it's not an in built feature of K8s.
+
+```sh
+$ kubectl apply -f k8s/ingress.yaml
+```
+So you configure the applied ingress controller to work with our env specific configurations. 🤞
+
+```sh
+$ kubectl apply -f k8s/
+```
+So you create all the needed resources for the project to run in the cluster using the files definitions. ✌️
+
+```sh
+$ cat ./hosts | sudo tee -a /etc/hosts
+```
+So you append the services URLs/domain-names to the `/etc/hosts` file on your local host machine for the mapping to get executed and for you to stay relaxed from figuring out each & every port for every service running! 😎
+
+<br><b><span style="background-color:yellow; color:black">Note:</span></b> A shared Postman collection && Environment Variables are included/shared within the source code root directory, this can be imported and ready to use after changing the environment variables values as per your local env. "In case you'd like to change the default"
+
+For documentation & Usage see `Postman Collection` shared collection with Examples included in file: `Nodejs Habit Tracker Micro K8s.postman_collection.json`.
 
 Import the above file in `Insomnia` or `Postman` or any other client!
 

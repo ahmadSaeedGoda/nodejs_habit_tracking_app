@@ -1,0 +1,7 @@
+
+# Section Start
+# Added by Habit-Tracker-App To allow Ingress Controller Routing
+#K8S ingress config
+127.0.0.1 habit-tracker-auth.local
+127.0.0.1 habit-tracker-habits.local
+# Section End
