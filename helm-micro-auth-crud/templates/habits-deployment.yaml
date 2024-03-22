@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: habits-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.habits.appLabel }}
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.habits.appLabel }}
+    spec:
+      containers:
+        - image: "{{ .Values.dockerHubRegistryRepoName }}:habit-service"
+          imagePullPolicy: Always
+          name: habits-pod
+          ports:
+            - containerPort: {{ .Values.habits.appPort }}
+          env:
+            - name: APP_PORT
+              value: "{{ .Values.habits.appPort }}"
+            - name: POSTGRES_HOST
+              value: {{ .Values.habits.DBServiceName }}
+            - name: POSTGRES_PORT
+              value: "{{ .Values.habits.DBPortNum }}"
+            - name: POSTGRES_USER
+              value: {{ .Values.habits.DBUser }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.habits.DBPass }}
+            - name: POSTGRES_DB
+              value: {{ .Values.habits.DBName }}
+            - name: AUTH_SERVICE_BASE_URL
+              value: "http://{{ .Values.auth.serviceName }}"
+            - name: AUTH_SERVICE_PORT
+              value: "{{ .Values.auth.appPort }}"
+            - name: AUTH_SERVICE_PUBLIC_KEY_PATH
+              value: public-key
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "0.5"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: habits-service
+  namespace: {{ .Values.namespace }}
+spec:
+  ports:
+    - port: {{ .Values.habits.appPort }}
+      targetPort: {{ .Values.habits.appPort }}
+  selector:
+    app: {{ .Values.habits.appLabel }}

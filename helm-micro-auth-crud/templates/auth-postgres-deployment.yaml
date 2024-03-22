@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-postgres-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.auth.DBLabel }}
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.auth.DBLabel }}
+    spec:
+      containers:
+        - image: "{{ .Values.dockerHubRegistryRepoName }}:auth-postgres"
+          imagePullPolicy: Always
+          name: auth-postgres-pod
+          ports:
+            - containerPort: {{ .Values.auth.DBPortNum }}
+          env:
+            - name: POSTGRES_HOST
+              value: auth-postgres
+            - name: POSTGRES_PORT
+              value: "{{ .Values.auth.DBPortNum }}"
+            - name: POSTGRES_USER
+              value: {{ .Values.auth.DBUser }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.auth.DBPass }}
+            - name: POSTGRES_DB
+              value: {{ .Values.auth.DBName }}
+          volumeMounts:
+            - name: auth-postgres-data
+              mountPath: /var/lib/postgresql/data
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "0.5"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+      volumes:
+        - name: auth-postgres-data
+          persistentVolumeClaim:
+            claimName: auth-postgres-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.auth.DBServiceName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  ports:
+    - port: {{ .Values.auth.DBPortNum }}
+      targetPort: {{ .Values.auth.DBPortNum }}
+  selector:
+    app: {{ .Values.auth.DBLabel }}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: auth-postgres-pvc
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "256Mi"

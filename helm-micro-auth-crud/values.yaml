@@ -1,0 +1,26 @@
+namespace: dev
+
+dockerHubRegistryRepoName: ahmadsaeedgoda/ld_rr
+
+auth:
+  serviceName: auth-service
+  appLabel: auth
+  appReplicaCount: 1
+  podName: auth-pod
+  appPort: 3000
+  DBServiceName: auth-postgres-service
+  DBPortNum: 5432
+  DBUser: admin
+  DBPass: password
+  DBName: nodejs_habit_tracker_users
+  DBLabel: auth-postgres-app
+
+habits:
+  appPort: 3001
+  appLabel: habits
+  DBServiceName: habits-postgres-service
+  DBPortNum: 5432
+  DBUser: admin
+  DBPass: password
+  DBName: nodejs_habit_tracker_habits
+  DBLabel: habits-postgres-app

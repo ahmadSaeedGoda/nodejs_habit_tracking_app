@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: habits-postgres-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.habits.DBLabel }}
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.habits.DBLabel }}
+    spec:
+      containers:
+        - image: "{{ .Values.dockerHubRegistryRepoName }}:habits-postgres"
+          imagePullPolicy: Always
+          name: habits-postgres-pod
+          ports:
+            - containerPort: {{ .Values.habits.DBPortNum }}
+          env:
+            - name: POSTGRES_HOST
+              value: habits-postgres
+            - name: POSTGRES_PORT
+              value: "{{ .Values.habits.DBPortNum }}"
+            - name: POSTGRES_USER
+              value: {{ .Values.habits.DBUser }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.habits.DBPass }}
+            - name: POSTGRES_DB
+              value: {{ .Values.habits.DBName }}
+          volumeMounts:
+            - name: habits-postgres-data
+              mountPath: /var/lib/postgresql/data
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "0.5"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+      volumes:
+        - name: habits-postgres-data
+          persistentVolumeClaim:
+            claimName: habits-postgres-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.habits.DBServiceName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  ports:
+    - port: {{ .Values.habits.DBPortNum }}
+      targetPort: {{ .Values.habits.DBPortNum }}
+  selector:
+    app: {{ .Values.habits.DBLabel }}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: habits-postgres-pvc
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "256Mi"
