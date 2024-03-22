@@ -1,7 +1,7 @@
 # Auth Keys
 **/*.key **/*.pem
-certs/
-!certs/.gitkeep
+**/certs/**
+!**/certs/**/.gitkeep
 
 # Logs
 *.log
