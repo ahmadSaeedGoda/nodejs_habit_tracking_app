@@ -5,12 +5,15 @@ import { requiredEnvVars } from './config/app-config';
 import bodyParser from 'body-parser';
 import { errorHandler } from './middleware/errorHandler';
 import authRouter from './routes/routes';
+import path from 'path';
 
 const app = express();
 // Allow requests from any origin
 app.use(cors());
 
-const publicKey = fs.readFileSync('./certs/public.pem', 'utf8');
+const publicKeyFilePath = path.resolve(__dirname, '../certs/public.pem');
+console.log('Attempting to read private key from:', publicKeyFilePath);
+const publicKey = fs.readFileSync(publicKeyFilePath, 'utf8');
 
 app.get('/public-key', (req, res) => {
   res.json({ publicKey });

@@ -1,6 +1,7 @@
 # Auth Keys
-*.key *.pem certs/
-src/services/auth/certs/
+**/*.key **/*.pem
+certs/
+!certs/.gitkeep
 
 # Logs
 *.log

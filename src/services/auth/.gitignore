@@ -1,5 +1,5 @@
 # Auth Keys
-*.key *.pem certs/
+**/*.key **/*.pem
 
 # Logs
 *.log
