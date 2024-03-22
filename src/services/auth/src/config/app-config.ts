@@ -12,9 +12,5 @@ function getRequiredEnvVar(key: string): string {
 
 export const requiredEnvVars = {
     appPort: getRequiredEnvVar('APP_PORT'),
-    pgHost: getRequiredEnvVar('POSTGRES_HOST'),
-    pgPort: getRequiredEnvVar('POSTGRES_PORT'),
-    pgUser: getRequiredEnvVar('POSTGRES_USER'),
-    pgPass: getRequiredEnvVar('POSTGRES_PASSWORD'),
-    pgDB: getRequiredEnvVar('POSTGRES_DB'),
+    dbURL: getRequiredEnvVar('DB_URL'),
 };
