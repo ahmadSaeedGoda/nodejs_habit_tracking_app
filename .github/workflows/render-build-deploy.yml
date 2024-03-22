@@ -21,7 +21,7 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker build -t ahmadsaeedgoda/ld_rr:render-auth-service -f Dockerfile.staging.uat .
+        cd ./src/services/auth && docker build -t ahmadsaeedgoda/ld_rr:render-auth-service -f Dockerfile.staging.uat .
         docker push ahmadsaeedgoda/ld_rr:render-auth-service
 
         - name: Trigger Render Deploy Hook
