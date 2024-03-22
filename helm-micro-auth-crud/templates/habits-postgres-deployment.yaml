@@ -27,7 +27,7 @@ spec:
             - containerPort: {{ .Values.habits.DBPortNum }}
           env:
             - name: POSTGRES_HOST
-              value: habits-postgres
+              value: habit-postgres
             - name: POSTGRES_PORT
               value: "{{ .Values.habits.DBPortNum }}"
             - name: POSTGRES_USER

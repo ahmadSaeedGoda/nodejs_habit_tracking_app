@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: {{ .Values.auth.appLabel }}
-  replicas: {{ .Values.auth.appReplicaCount }}
+  replicas: 1
   minReadySeconds: 15
   strategy:
     type: RollingUpdate
@@ -20,9 +20,9 @@ spec:
         app: {{ .Values.auth.appLabel }}
     spec:
       containers:
-        - image: "{{ .Values.dockerHubRegistryRepoName }}:{{ .Values.auth.serviceName }}"
+        - image: "{{ .Values.dockerHubRegistryRepoName }}:auth-service"
           imagePullPolicy: Always
-          name: {{ .Values.auth.podName }}
+          name: auth-pod
           ports:
             - containerPort: {{ .Values.auth.appPort }}
           env:
@@ -50,7 +50,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.auth.serviceName }}
+  name: auth-service
   namespace: {{ .Values.namespace }}
 spec:
   ports:
