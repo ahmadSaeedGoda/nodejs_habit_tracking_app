@@ -21,13 +21,13 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        cd ./src/services/auth && docker build -t ahmadsaeedgoda/ld_rr:render-auth-service -f Dockerfile.staging.uat .
+        docker build -t ahmadsaeedgoda/ld_rr:render-auth-service -f ./src/services/auth/Dockerfile.staging.uat ./src/services/auth
         docker push ahmadsaeedgoda/ld_rr:render-auth-service
 
     - name: Generate Public/Private Keys for JWT auth functionality
       run: |
-        openssl genrsa -out ./certs/private.pem
-        openssl rsa -in ./certs/private.pem -pubout -out ./certs/public.pem
+        openssl genrsa -out ./src/services/auth/certs/private.pem
+        openssl rsa -in ./src/services/auth/certs/private.pem -pubout -out ./certs/public.pem
 
     - name: Trigger Render Deploy Hook
       run: |
