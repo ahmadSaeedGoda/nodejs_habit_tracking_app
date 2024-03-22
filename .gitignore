@@ -52,7 +52,6 @@ jest/*.json
 
 # Specific IDE or framework configuration files
 # (Adjust as needed for your setup)
-**/tsconfig.json
 **/tslint.json
 **/prettier.config.json
 node_modules/
