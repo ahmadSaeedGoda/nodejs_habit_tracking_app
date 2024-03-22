@@ -27,7 +27,7 @@ jobs:
     - name: Generate Public/Private Keys for JWT auth functionality
       run: |
         openssl genrsa -out ./src/services/auth/certs/private.pem
-        openssl rsa -in ./src/services/auth/certs/private.pem -pubout -out ./certs/public.pem
+        openssl rsa -in ./src/services/auth/certs/private.pem -pubout -out ./src/services/auth/certs/public.pem
 
     - name: Trigger Render Deploy Hook
       run: |
