@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 
 const publicKeyFilePath = path.resolve(__dirname, '../certs/public.pem');
-console.log('Attempting to read private key from:', publicKeyFilePath);
+console.log('Attempting to read public key from:', publicKeyFilePath);
 const publicKey = fs.readFileSync(publicKeyFilePath, 'utf8');
 
 app.get('/public-key', (req, res) => {
