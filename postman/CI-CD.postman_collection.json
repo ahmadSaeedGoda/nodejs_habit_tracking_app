@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "e7c0372b-ea82-4193-861f-c1516b172725",
+		"name": "CI/CD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8125803",
+		"_collection_link": "https://egysoft.postman.co/workspace/Team-Workspace~27f02eda-6c2a-4083-8b63-3c5eb45431bf/collection/8125803-e7c0372b-ea82-4193-861f-c1516b172725?action=share&source=collection_link&creator=8125803"
+	},
+	"item": [
+		{
+			"name": "Staging",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"nonexist1\",\n\t\"email\": \"nonexist1@example.com\",\n\t\"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://ld-rr-auth-service.onrender.com/auth/register",
+									"protocol": "https",
+									"host": [
+										"ld-rr-auth-service",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								},
+								"description": "### Register User\n\nThis endpoint is used to register a new user.\n\n- Method: POST\n- Base URL: {{baseUrl}}\n- Path: /users/register\n    \n\n#### Request Body\n\n- Type: raw (application/json)\n    \n\n| Key | Type | Description |\n| --- | --- | --- |\n| name | string | The name of the user |\n| email | string | The email address of the user |\n| password | string | The password for the user account |\n\n#### Response\n\n- Status: 409\n- Content-Type: application/json\n    \n\n``` json\n{\n    \"message\": \"The error message\",\n    \"status\": \"The status of the request\",\n    \"data\": \"null\"\n}\n\n ```\n\n- Status: 201\n- Content-Type: application/json\n    \n\n``` json\n{\n    \"message\": \"User registered successfully\"\n}\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"followRedirects": true,
+								"disableUrlEncoding": false,
+								"disableCookies": false
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"nonexist@example.com\",\n\t\"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://ld-rr-auth-service.onrender.com/auth/login",
+									"protocol": "https",
+									"host": [
+										"ld-rr-auth-service",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								},
+								"description": "This endpoint allows users to log in via an HTTP POST request to {{baseUrl}}/users/login. The request should include a raw body with the user's email and password.\n\n### Request Body\n\n- email (string): The user's email\n- password (string): The user's password\n    \n\nUpon a successful execution, the server will respond with a status code of 200 and a JSON object in the response body. The response includes a message, status, and a data object containing a token for the authenticated user.\n\n### Response\n\n- message (string): A message from the server\n- status (string): The status of the response\n- data (object): An object containing the user's token\n    \n\nExample Response:\n\n``` json\n{\n    \"message\": \"success\",\n    \"status\": \"success\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MDg3MjQwNTJ9.qjzQM-c8IUp_x-F5CCAwGlbTKj0-xVO7333y554W7Gs\"\n    }\n}\n\n ```"
+							},
+							"response": []
+						}
+					],
+					"description": "Users Auth \"Registration & Login\""
+				}
+			]
+		}
+	]
+}
