@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import fs from 'fs'
 import { AuthRepository, authRepository } from './auth.repository';
 import { User } from '../entity/auth.model';
-import { requiredEnvVars } from '../config/app-config';
 import { ValidationError } from '../errors/customErrors';
 import { Validator } from '../utils/validator';
 import path from 'path';
@@ -48,7 +47,7 @@ export class AuthService {
         const existingUser = await this.authRepository.getUserByEmail(user.email);
 
         if (existingUser) {
-            throw new ValidationError('Email is already taken');
+            throw new ValidationError('This email already exists');
         }
 
         return await this.authRepository.saveUser(user);
