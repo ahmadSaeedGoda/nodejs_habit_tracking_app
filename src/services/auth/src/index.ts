@@ -21,6 +21,10 @@ app.get('/public-key', (req, res) => {
 
 app.use(bodyParser.json());
 
+app.get('/ping', (req, res) => {
+  return res.send("pong!");
+});
+
 app.use('/auth', authRouter);
 
 app.use(errorHandler);
